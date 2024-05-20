@@ -29,7 +29,6 @@
 - [PostgreSQL](https://www.postgresql.org/)
 - [Json Web Token](https://jwt.io/)
 - [Gorm.io](https://gorm.io/index.html)
-- [Json Web Token](github.com/dgrijalva/jwt-go)
 
 ## Installation
 1. Clone this repository
