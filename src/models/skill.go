@@ -3,11 +3,13 @@ package models
 import "gorm.io/gorm"
 
 type Skill struct {
-	Id     uint   `json:"id"`
-	Nama   string `json:"nama"`
-	UserId uint
-	User   User `gorm:"foreignKey:UserId"`
+	Id       uint   `json:"id"`
+	Nama     string `json:"nama"`
+	WorkerId uint   //untuk relasi dengan worker
 }
+
+//relasi ke worker
+// many2many ke worker
 
 func (skill *Skill) Count(db *gorm.DB) int64 {
 	var total int64

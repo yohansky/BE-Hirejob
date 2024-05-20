@@ -34,9 +34,37 @@ func GetExperience(c *fiber.Ctx) error {
 
 	experience.Id = uint(id)
 
-	config.DB.Preload("User").Find(&experience)
+	config.DB.Preload("Worker").Find(&experience)
 
 	return c.JSON(experience)
+}
+
+func GetWorkerByWorkerIDExperience(c *fiber.Ctx) error {
+	// Ambil ID dari parameter URL
+	id := c.Params("id")
+
+	// Lakukan pencarian Worker berdasarkan ID di database
+	var experience []models.Experience
+	if err := config.DB.Where("worker_id = ?", id).First(&experience).Error; err != nil {
+		// Jika tidak ditemukan, kirim respons error 404
+		return c.JSON(fiber.Map{"error": "Worker not found"})
+	}
+
+	// Kirim respons JSON dengan data Worker yang ditemukan
+	return c.JSON(experience)
+}
+
+func GetExperiencesByWorkerID(c *fiber.Ctx) error {
+
+	id := c.Params("id")
+
+	var experiences []models.Experience
+	if err := config.DB.Where("worker_id = ?", id).Find(&experiences).Error; err != nil {
+
+		return c.JSON(fiber.Map{"error": "experiences not found"})
+	}
+
+	return c.JSON(experiences)
 }
 
 func UpdateExperience(c *fiber.Ctx) error {

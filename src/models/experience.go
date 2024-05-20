@@ -8,8 +8,8 @@ type Experience struct {
 	Perusahaan string `json:"perusahaan"`
 	Tahun      string `json:"tahun"`
 	Deskripsi  string `json:"deskripsi"`
-	UserId     uint
-	User       User `gorm:"foreignKey:UserId"`
+	WorkerId   uint
+	Worker     Worker `gorm:"foreignKey:WorkerId"`
 }
 
 func (experience *Experience) Count(db *gorm.DB) int64 {
@@ -23,7 +23,7 @@ func (experience *Experience) Count(db *gorm.DB) int64 {
 func (experience *Experience) Take(db *gorm.DB, limit int, offset int) interface{} {
 	var experiences []Experience
 
-	db.Preload("User").Offset(offset).Limit(limit).Find(&experiences)
+	db.Preload("Worker").Offset(offset).Limit(limit).Find(&experiences)
 
 	return experiences
 }

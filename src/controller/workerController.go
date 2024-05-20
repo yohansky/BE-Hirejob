@@ -34,7 +34,20 @@ func GetWorker(c *fiber.Ctx) error {
 
 	worker.Id = uint(id)
 
-	config.DB.Preload("User").Find(&worker)
+	config.DB.Preload("User").Preload("Skill").Find(&worker)
+
+	return c.JSON(worker)
+}
+
+func GetWorkerByUserID(c *fiber.Ctx) error {
+
+	id := c.Params("id")
+
+	var worker []models.Worker
+	if err := config.DB.Where("user_id = ?", id).First(&worker).Error; err != nil {
+
+		return c.JSON(fiber.Map{"error": "Worker not found"})
+	}
 
 	return c.JSON(worker)
 }

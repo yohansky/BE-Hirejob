@@ -42,6 +42,66 @@ func Register(c *fiber.Ctx) error {
 	return c.JSON(user)
 }
 
+func RegisterWorker(c *fiber.Ctx) error {
+	//harus dibedakan registernya, ada register worker dan register recruiter
+	var data map[string]string
+
+	if err := c.BodyParser(&data); err != nil {
+		return err
+	}
+
+	if data["Password"] != data["Passwordconfirm"] {
+		c.Status(400)
+		return c.JSON(fiber.Map{
+			"Message": "Password do not match",
+		})
+	}
+
+	user := models.User{
+		Nama:         data["Nama"],
+		Email:        data["Email"],
+		Nomortelepon: data["Nomortelepon"],
+		RoleId:       3,
+	}
+
+	user.SetPassword(data["Password"])
+
+	config.DB.Create(&user)
+
+	return c.JSON(user)
+}
+
+func RegisterRecruiter(c *fiber.Ctx) error {
+	//harus dibedakan registernya, ada register worker dan register recruiter
+	var data map[string]string
+
+	if err := c.BodyParser(&data); err != nil {
+		return err
+	}
+
+	if data["Password"] != data["Passwordconfirm"] {
+		c.Status(400)
+		return c.JSON(fiber.Map{
+			"Message": "Password do not match",
+		})
+	}
+
+	user := models.User{
+		Nama:         data["Nama"],
+		Email:        data["Email"],
+		Perusahaan:   data["Perusahaan"],
+		Jabatan:      data["Jabatan"],
+		Nomortelepon: data["Nomortelepon"],
+		RoleId:       2,
+	}
+
+	user.SetPassword(data["Password"])
+
+	config.DB.Create(&user)
+
+	return c.JSON(user)
+}
+
 func Login(c *fiber.Ctx) error {
 	var data map[string]string
 

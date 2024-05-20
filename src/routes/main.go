@@ -33,6 +33,8 @@ func Router(app *fiber.App) {
 	app.Get("/workers", controller.AllWorkers)
 	app.Post("/workers", controller.CreateWorker)
 	app.Get("/worker/:id", controller.GetWorker)
+	//buat kondisi ketika sudah ada userid akan menemukan workerid
+	app.Get("/user/:id/worker", controller.GetWorkerByUserID)
 	app.Put("/worker/:id", controller.UpdateWorker)
 	app.Delete("/worker/:id", controller.DeleteWorker)
 
@@ -51,12 +53,18 @@ func Router(app *fiber.App) {
 	app.Get("/projects", controller.AllProjects)
 	app.Post("/projects", controller.CreateProject)
 	app.Get("/project/:id", controller.GetProject)
+	app.Get("/worker/:id/project", controller.GetWorkerByWorkerIDProject)
+	app.Get("/worker/:id/projects", controller.GetProjectsByWorkerID)
 	app.Put("/project/:id", controller.UpdateProject)
 	app.Delete("/project/:id", controller.DeleteProject)
 
 	app.Get("/experiences", controller.AllExperiences)
 	app.Post("/experiences", controller.CreateExperience)
 	app.Get("/experience/:id", controller.GetExperience)
+	app.Get("/worker/:id/experience", controller.GetWorkerByWorkerIDExperience)
+	app.Get("/worker/:id/experiences", controller.GetExperiencesByWorkerID)
 	app.Put("/experience/:id", controller.UpdateExperience)
 	app.Delete("/experience/:id", controller.DeleteExperience)
+
+	app.Static("/uploads", "src/uploads")
 }
